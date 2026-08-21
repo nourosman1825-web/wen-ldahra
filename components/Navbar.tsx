@@ -1,3 +1,5 @@
+
+
 // app/component/Navbar.tsx
 
 import React from 'react';
@@ -16,7 +18,7 @@ const Navigation = () => {
         <span className="hover:text-brown cursor-pointer">Home</span>
         <span className="hover:text-brown  cursor-pointer">Explore</span>
         <span className="hover:text-brown cursor-pointer">Categories</span>
-        <span className="hover:text-brown cursor-pointer">About Us</span>
+        <span className="hovesr:text-brown cursor-pointer">About Us</span>
       </div>
 
       {/* Right side: Action Buttons */}
