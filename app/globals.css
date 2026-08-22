@@ -11,6 +11,7 @@
   --color-white: #fffaf5;
   --color-beige2: #f4f1e2;
 }
+
 * {
   box-sizing: border-box;
 }
@@ -21,17 +22,31 @@ body {
   color: #4d3e1c;
 }
 
+/* Custom Scrollbar Styles */
 ::-webkit-scrollbar {
   width: 6px;
   height: 6px;
 }
+
 ::-webkit-scrollbar-track {
   background: transparent;
 }
+
 ::-webkit-scrollbar-thumb {
   background: #7f6d39;
   border-radius: 3px;
 }
+
 ::-webkit-scrollbar-thumb:hover {
   background: #b8b094;
+}
+
+/* Hide scrollbar for Chrome, Safari, Firefox and Mobile */
+.scrollbar-none {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
+.scrollbar-none::-webkit-scrollbar {
+  display: none; /* Chrome, Safari and Opera */
 }
