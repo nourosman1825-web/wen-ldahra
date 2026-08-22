@@ -1,7 +1,6 @@
-
-
 // app/component/Navbar.tsx
 
+import Link from 'next/link';
 import React from 'react';
 
 const Navigation = () => {
@@ -15,10 +14,10 @@ const Navigation = () => {
 
       {/* Center: Navigation Links */}
       <div className="flex space-x-6 text-sm font-medium text-gray-600">
-        <span className="hover:text-brown cursor-pointer">Home</span>
-        <span className="hover:text-brown  cursor-pointer">Explore</span>
-        <span className="hover:text-brown cursor-pointer">Categories</span>
-        <span className="hovesr:text-brown cursor-pointer">About Us</span>
+        <Link href="/" className="hover:text-brown cursor-pointer">Home</Link>
+        <Link href="/explore" className="hover:text-brown cursor-pointer">Explore</Link>
+        <Link href="/categories/More" className="hover:text-brown cursor-pointer">Categories</Link>
+        <Link href="/about" className="hover:text-brown cursor-pointer">About Us</Link>
       </div>
 
       {/* Right side: Action Buttons */}

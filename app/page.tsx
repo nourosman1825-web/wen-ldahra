@@ -1,8 +1,18 @@
 // app/page.tsx
+"use client"
 import Image from "next/image";
 import React from 'react';
+import { useRouter } from 'next/navigation';
+import Link from "next/link";
 
 export default function Home() {
+  const router= useRouter();
+  const handleSearch = () =>{
+         router.push('/result');
+};
+  const handleExploreClick= () =>{
+    router.push('/explore');
+  }
   return (
     <main className="min-h-screen bg-cream"  >
       {/* Hero Section */}
@@ -29,7 +39,7 @@ export default function Home() {
                 placeholder="Search for places or ask anything..."
                 className="flex-1 px-3 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2"
               />
-              <button className="bg-brown hover:bg-dark-brown text-white font-semibold py-3 px-6 rounded-lg">
+              <button onClick={handleSearch} className="bg-brown hover:bg-dark-brown text-white font-semibold py-3 px-6 rounded-lg">
                 Search / Find Places
               </button>
             </div>
@@ -57,6 +67,7 @@ export default function Home() {
     {categories.map((category) => (
       <div
         key={category.name}
+        onClick={() => router.push(`/categories/${category.name.toLowerCase()}`)}
         className="bg-beige2 hover:bg-brown hover:text-white border border-gray-200 rounded-xl p-4 text-center cursor-pointer transition duration-200 shadow-sm flex flex-col items-center gap-2"
       >
         <span className="text-3xl">{category.icon}</span>
@@ -87,7 +98,7 @@ export default function Home() {
           Explore top-rated places around you right now
         </p>
       </div>
-      <button className="flex items-center gap-2 bg-white text-brown font-semibold px-6 py-3 rounded-lg hover:bg-beige2 transition duration-200 whitespace-nowrap">
+      <button onClick={handleExploreClick} className="flex items-center gap-2 bg-white text-brown font-semibold px-6 py-3 rounded-lg hover:bg-beige2 transition duration-200 whitespace-nowrap">
         Explore Now →
       </button>
     </div>

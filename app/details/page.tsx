@@ -70,7 +70,7 @@ function PlaceDetailsContent() {
     <div className="min-h-screen bg-[#f3e9dd] pb-16">
       {/* Top Navigation */}
       <div className="max-w-6xl mx-auto px-6 py-4">
-        <Link href="/" className="text-[#6b4e3d] hover:underline font-medium text-sm">
+        <Link href="/explore" className="text-[#6b4e3d] hover:underline font-medium text-sm">
           ← Back to results
         </Link>
       </div>
