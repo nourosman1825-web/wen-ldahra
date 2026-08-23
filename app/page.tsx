@@ -8,15 +8,25 @@ import { useRouter } from 'next/navigation';
 export default function Home() {
   const router = useRouter();
   const [searchQuery, setSearchQuery] = useState("");
+  const [error,setError]=useState("");
 
-  const handleSearch = (e?: React.FormEvent) => {
-    if (e) e.preventDefault();
-    if (searchQuery.trim()) {
-      router.push(`/result?q=${encodeURIComponent(searchQuery)}`);
-    } else {
-      router.push('/result');
+  function handleSearch (e: React.FormEvent)  {
+     e.preventDefault();
+    if (!searchQuery || searchQuery.trim() === "") {
+      setError("please enter what you're looking for");
+      return;
     }
-  };
+    const availidPlaces=["parcks","restaurant", "cafes","beaches"];
+    const isValidPlace= availidPlaces.some(place=>
+      place.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+    if(!isValidPlace){
+      setError("this place is not available or invalid");
+      return;
+    }
+    setError("");
+      router.push(`/result?query=${encodeURIComponent(searchQuery)}`);
+    }
 
   const handleExploreClick = () => {
     router.push('/explore');
@@ -61,6 +71,7 @@ export default function Home() {
                 Search Places
               </button>
             </form>
+            {error && <p className="text-red-500 mt-2 text-sm">{error}</p>}
           </div>
 
           {/* Right: Photo */}
