@@ -35,7 +35,7 @@ function ResultsContent() {
   }, [searchParams]);
 
   const allPlaces = [
-    // Cafés in Lebanon
+    // Cafés
     {
       id: 1,
       name: "Café Younes",
@@ -76,7 +76,7 @@ function ResultsContent() {
       image: "https://images.unsplash.com/photo-1551024709-8f23befc6f87?w=500&auto=format&fit=crop&q=60",
       category: "Cafés"
     },
-    // Restaurants in Lebanon
+    // Restaurants
     {
       id: 5,
       name: "Al Falamanki",
@@ -107,7 +107,7 @@ function ResultsContent() {
       image: "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=500&auto=format&fit=crop&q=60",
       category: "Restaurants"
     },
-    // Parks in Lebanon
+    // Parks
     {
       id: 8,
       name: "Horsh Beirut",
@@ -190,6 +190,153 @@ function ResultsContent() {
       tags: ["Gym", "Wellness", "Indoor", "Quiet"],
       image: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=500&auto=format&fit=crop&q=60",
       category: "Gyms"
+    },
+    // Hotels
+    {
+      id: 16,
+      name: "Phoenicia Hotel Beirut",
+      rating: "4.9",
+      reviews: "(3.2k)",
+      distance: 1.3,
+      tags: ["Hotel", "Luxury", "Pool", "Spa"],
+      image: "https://images.unsplash.com/photo-1566073771259-6a8506099945?w=500&auto=format&fit=crop&q=60",
+      category: "Hotels"
+    },
+    {
+      id: 17,
+      name: "Le Gray Beirut",
+      rating: "4.8",
+      reviews: "(1.8k)",
+      distance: 1.7,
+      tags: ["Hotel", "Boutique", "Rooftop", "Luxury"],
+      image: "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?w=500&auto=format&fit=crop&q=60",
+      category: "Hotels"
+    },
+    // Beaches
+    {
+      id: 18,
+      name: "Pierre & Friends",
+      rating: "4.6",
+      reviews: "(2.5k)",
+      distance: 4.2,
+      tags: ["Beach", "Resort", "Pool", "Restaurant"],
+      image: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=500&auto=format&fit=crop&q=60",
+      category: "Beaches"
+    },
+    {
+      id: 19,
+      name: "Oyster Bay Beach",
+      rating: "4.5",
+      reviews: "(1.9k)",
+      distance: 5.8,
+      tags: ["Beach", "Family", "Water Sports", "Café"],
+      image: "https://images.unsplash.com/photo-1519046904884-53103b34b206?w=500&auto=format&fit=crop&q=60",
+      category: "Beaches"
+    },
+    // Historical Sites
+    {
+      id: 20,
+      name: "Byblos Castle",
+      rating: "4.9",
+      reviews: "(6.2k)",
+      distance: 35.0,
+      tags: ["Historical", "Castle", "Heritage", "Views"],
+      image: "https://images.unsplash.com/photo-1580587771525-78b9dba3b914?w=500&auto=format&fit=crop&q=60",
+      category: "Historical Sites"
+    },
+    {
+      id: 21,
+      name: "Baalbek Ruins",
+      rating: "4.9",
+      reviews: "(7.1k)",
+      distance: 78.0,
+      tags: ["Historical", "Roman", "UNESCO", "Heritage"],
+      image: "https://images.unsplash.com/photo-1582034986517-30d163aa1da9?w=500&auto=format&fit=crop&q=60",
+      category: "Historical Sites"
+    },
+    // Spa & Wellness
+    {
+      id: 22,
+      name: "Massage Center Beirut",
+      rating: "4.7",
+      reviews: "(380)",
+      distance: 1.5,
+      tags: ["Spa", "Massage", "Wellness", "Relaxation"],
+      image: "https://images.unsplash.com/photo-1544161515-4ab6ce6db874?w=500&auto=format&fit=crop&q=60",
+      category: "Spa & Wellness"
+    },
+    {
+      id: 23,
+      name: "Zen Spa & Resort",
+      rating: "4.8",
+      reviews: "(520)",
+      distance: 3.2,
+      tags: ["Spa", "Luxury", "Massage", "Wellness"],
+      image: "https://images.unsplash.com/photo-1519823551278-64ac92734fb1?w=500&auto=format&fit=crop&q=60",
+      category: "Spa & Wellness"
+    },
+    // Museums
+    {
+      id: 24,
+      name: "National Museum of Beirut",
+      rating: "4.8",
+      reviews: "(4.2k)",
+      distance: 1.8,
+      tags: ["Museum", "History", "Artifacts", "Cultural"],
+      image: "https://images.unsplash.com/photo-1566127992631-137a642a90f4?w=500&auto=format&fit=crop&q=60",
+      category: "Museums"
+    },
+    {
+      id: 25,
+      name: "Sursock Museum",
+      rating: "4.7",
+      reviews: "(3.1k)",
+      distance: 2.1,
+      tags: ["Museum", "Art", "Modern", "Gallery"],
+      image: "https://images.unsplash.com/photo-1578926375605-eaf7559b1458?w=500&auto=format&fit=crop&q=60",
+      category: "Museums"
+    },
+    // Bakeries
+    {
+      id: 26,
+      name: "Wooden Bakery",
+      rating: "4.6",
+      reviews: "(2.8k)",
+      distance: 0.6,
+      tags: ["Bakery", "Pastries", "Manakish", "Breakfast"],
+      image: "https://images.unsplash.com/photo-1509440159596-0249088772ff?w=500&auto=format&fit=crop&q=60",
+      category: "Bakeries"
+    },
+    {
+      id: 27,
+      name: "Forneiro Bakery",
+      rating: "4.7",
+      reviews: "(1.2k)",
+      distance: 1.1,
+      tags: ["Bakery", "Artisan", "Bread", "Pastries"],
+      image: "https://images.unsplash.com/photo-1585478259715-1d2a665d8c9a?w=500&auto=format&fit=crop&q=60",
+      category: "Bakeries"
+    },
+    // Bookstores
+    {
+      id: 28,
+      name: "Librairie Antoine",
+      rating: "4.8",
+      reviews: "(2.3k)",
+      distance: 0.9,
+      tags: ["Bookstore", "Books", "Stationery", "Café"],
+      image: "https://images.unsplash.com/photo-1526243741027-444d633d7365?w=500&auto=format&fit=crop&q=60",
+      category: "Bookstores"
+    },
+    {
+      id: 29,
+      name: "Papercup Bookstore",
+      rating: "4.6",
+      reviews: "(780)",
+      distance: 1.4,
+      tags: ["Bookstore", "Café", "Quiet", "Wi-Fi"],
+      image: "https://images.unsplash.com/photo-1507842217343-583bb7270b66?w=500&auto=format&fit=crop&q=60",
+      category: "Bookstores"
     }
   ];
 
@@ -268,7 +415,7 @@ function ResultsContent() {
               sortedPlaces.map((place) => (
                 <div 
                   key={place.id} 
-                  className="bg-white p-4 rounded-2xl shadow-sm border border-gray-100 flex flex-col sm:flex-row sm:items-center justify-between gap-4 hover:shadow-md transition-shadow"
+                  className="bg-white p-4 rounded-2xl shadow-sm border border-gray-100 flex flex-col sm:flex-row sm:items-center justify-between gap-4 hover:scale-110 transition-transform"
                 >
                   <div className="flex flex-col sm:flex-row sm:items-center gap-4">
                     <img 

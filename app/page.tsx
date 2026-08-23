@@ -99,18 +99,24 @@ export default function Home() {
           <p className="text-xs sm:text-sm text-text/70 mt-1">Browse places by type</p>
         </div>
 
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-7 gap-3 sm:gap-4">
-          {categories.map((category) => (
-            <div
-              key={category.name}
-              onClick={() => handleCategoryClick(category.name)}
-              className="bg-white/80 hover:bg-brown hover:text-white border border-beige rounded-2xl p-4 text-center cursor-pointer transition-all duration-200 shadow-sm hover:shadow-md flex flex-col items-center justify-center gap-2 group hover:-translate-y-1"
-            >
-              <span className="text-3xl group-hover:scale-110 transition-transform">{category.icon}</span>
-              <span className="font-semibold text-xs sm:text-sm">{category.name}</span>
-            </div>
-          ))}
-        </div>
+<div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-7 gap-3 sm:gap-4">
+  {categories.map((category) => (
+    <div
+      key={category.name}
+      onClick={() => {
+        if (category.name === 'More') {
+          router.push('/more');
+        } else {
+          handleCategoryClick(category.name);
+        }
+      }}
+      className="bg-white/80 hover:bg-brown hover:text-white  border-beige rounded-2xl p-4 text-center cursor-pointer transition-all duration-200 shadow-sm hover:shadow-md flex flex-col items-center justify-center gap-2 group hover:-translate-y-1"
+    >
+      <span className="text-3xl group-hover:scale-110 transition-transform">{category.icon}</span>
+      <span className="font-semibold text-xs sm:text-sm">{category.name}</span>
+    </div>
+  ))}
+</div>
       </section>
 
       {/* Popular Near You Section */}
