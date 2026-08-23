@@ -18,7 +18,7 @@ const Navigation = () => {
         <div className="hidden md:flex space-x-6 text-sm font-medium text-gray-600">
           <Link href="/" className="hover:text-brown transition">Home</Link>
           <Link href="/explore" className="hover:text-brown transition">Explore</Link>
-          <Link href="/categories/More" className="hover:text-brown transition">Categories</Link>
+          <Link href="/result?category=More" className="hover:text-brown transition">Categories</Link>
           <Link href="/about" className="hover:text-brown transition">About Us</Link>
         </div>
 

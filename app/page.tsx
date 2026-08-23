@@ -29,11 +29,16 @@ export default function Home() {
     }
 
   const handleExploreClick = () => {
-    router.push('/explore');
+    router.push('/result');
+  };
+
+  // This function handles category clicks and navigates to results page with category filter
+  const handleCategoryClick = (categoryName: string) => {
+    router.push(`/result?category=${encodeURIComponent(categoryName)}`);
   };
 
   return (
-    <main className="min-h-screen bg-cream ">
+    <main className="min-h-screen bg-cream">
       {/* Hero Section */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 bg-beige2/60 rounded-3xl mt-4 border border-beige">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
@@ -98,7 +103,7 @@ export default function Home() {
           {categories.map((category) => (
             <div
               key={category.name}
-              onClick={() => router.push(`/categories/${category.name.toLowerCase()}`)}
+              onClick={() => handleCategoryClick(category.name)}
               className="bg-white/80 hover:bg-brown hover:text-white border border-beige rounded-2xl p-4 text-center cursor-pointer transition-all duration-200 shadow-sm hover:shadow-md flex flex-col items-center justify-center gap-2 group hover:-translate-y-1"
             >
               <span className="text-3xl group-hover:scale-110 transition-transform">{category.icon}</span>
@@ -117,7 +122,6 @@ export default function Home() {
             fill
             className="object-cover"
           />
-          {/* Overlay with subtle gradient */}
           <div className="absolute inset-0 bg-linear-to-r from-dark-brown/90 via-dark-brown/75 to-transparent" />
 
           <div className="relative h-full flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6 p-6 sm:p-12">
