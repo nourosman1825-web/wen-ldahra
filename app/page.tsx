@@ -23,7 +23,7 @@ export default function Home() {
   };
 
   return (
-    <main className="min-h-screen bg-cream">
+    <main className="min-h-screen bg-cream ">
       {/* Hero Section */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 bg-beige2/60 rounded-3xl mt-4 border border-beige">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">

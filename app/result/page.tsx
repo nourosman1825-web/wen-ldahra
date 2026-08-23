@@ -56,25 +56,7 @@ export default function ResultsPage() {
 
   return (
     <main className="min-h-screen bg-[#f3e9dd] text-gray-800 p-4 sm:p-6 lg:p-8">
-      {/* Top Header Search Bar */}
-      <div className="max-w-7xl mx-auto mb-6 bg-white p-3 sm:p-4 rounded-2xl shadow-sm border border-gray-100 flex items-center space-x-3">
-        <span className="text-xl">🔍</span>
-        <input 
-          type="text"
-          placeholder="Filter results..."
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-          className="w-full outline-none text-sm sm:text-base text-gray-700 placeholder-gray-400 bg-transparent"
-        />
-        {searchQuery && (
-          <button 
-            onClick={() => setSearchQuery("")}
-            className="text-xs bg-gray-100 px-3 py-1 rounded-full text-gray-500 hover:bg-gray-200 transition"
-          >
-            Clear
-          </button>
-        )}
-      </div>
+
 
       {/* Main Content Area */}
       <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8">
@@ -82,7 +64,7 @@ export default function ResultsPage() {
         {/* Left Side: Results & Cards */}
         <div className="lg:col-span-7 space-y-4">
           <h1 className="text-xl sm:text-2xl font-bold text-gray-900">
-            AI found <span className="text-blue-600">{filteredPlaces.length} places</span> for you
+            AI found <span className="text-dark-brown">{filteredPlaces.length} places</span> for you
           </h1>
 
           {/* Quick Tag Filters */}
@@ -103,12 +85,12 @@ export default function ResultsPage() {
           </div>
 
           {/* Places List */}
-          <div className="space-y-4">
+          <div className="space-y-4 " >
             {filteredPlaces.length > 0 ? (
               filteredPlaces.map((place) => (
                 <div 
                   key={place.id} 
-                  className="bg-white p-4 rounded-2xl shadow-sm border border-gray-100 flex flex-col sm:flex-row sm:items-center justify-between gap-4 hover:shadow-md transition"
+                  className="bg-white p-4 rounded-2xl shadow-sm border border-gray-100 flex flex-col sm:flex-row sm:items-center justify-between gap-4 hover:scale-110 transition-transform"
                 >
                   <div className="flex flex-col sm:flex-row sm:items-center gap-4">
                     <img 
@@ -155,7 +137,7 @@ export default function ResultsPage() {
         {/* Right Side: Visual Section */}
         <div className="hidden lg:flex lg:col-span-5 bg-blue-50/60 rounded-3xl h-[550px] sticky top-6 border border-blue-100/80 flex-col items-center justify-center p-6 text-center shadow-inner">
           <div className="text-5xl mb-4">🤖✨</div>
-          <h3 className="font-bold text-blue-900 text-xl mb-2">AI Recommendation Engine</h3>
+          <h3 className="font-bold text-brown text-xl mb-2">AI Recommendation Engine</h3>
           <p className="text-sm text-gray-500 max-w-xs leading-relaxed">
             Filter your recommendations or search above to quickly narrow down places.
           </p>

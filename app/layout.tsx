@@ -4,6 +4,10 @@
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import Navbar from "../components/Navbar";
+import localFont from "next/font/local";
+const prociono = localFont({ src: "./fonts/Prociono-Regular.ttf",
+   variable: "--font-prociono", weight: "400", });
+
 
 export const metadata: Metadata = {
   title: "Place Finder",
@@ -20,7 +24,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className="antialiased bg-gray-50 text-gray-900 min-h-screen">
+      <body className={`${prociono.variable} antialiased bg-gray-50 text-gray-900 min-h-screen`}>
         <Navbar />
         {children}
       </body>

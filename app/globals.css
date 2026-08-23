@@ -10,6 +10,7 @@
   --color-text: #4a3529;
   --color-white: #fffaf5;
   --color-beige2: #f4f1e2;
+  --font-prociono: var(--font-prociono);
 }
 
 * {

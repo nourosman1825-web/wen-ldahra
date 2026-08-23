@@ -89,7 +89,7 @@ export default function explore() {
           <div className="space-y-4">
             {filteredPlaces.length > 0 ? (
               filteredPlaces.map((place) => (
-                <div key={place.id} className="bg-white p-4 rounded-xl shadow-sm border flex items-center justify-between hover:shadow-md transition">
+                <div key={place.id} className="bg-white p-4 rounded-xl shadow-sm border flex items-center justify-between hover:scale-110 transition-transform">
                   <div className="flex items-center space-x-4">
                     <img src={place.image} alt={place.name} className="w-20 h-20 rounded-lg object-cover" />
                     <div>
