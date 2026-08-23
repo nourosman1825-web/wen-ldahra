@@ -102,7 +102,7 @@ export default function explore() {
                       </div>
                       <div className="flex gap-1 mt-2 flex-wrap">
                         {place.tags.map((tag, index) => (
-                          <span key={index} className="bg-[#6b4e3d] text-[#f3e9dd] text-[10px] px-2 py-0.5 rounded-md font-medium">
+                          <span key={index} className="bg-[#f3e9dd] text-[#6b4e3d] border border-[#6b4e3d] text-[10px] px-2 py-0.5 rounded-md font-medium">
                             {tag}
                           </span>
                         ))}
@@ -111,7 +111,7 @@ export default function explore() {
                   </div>
                   <div className="flex flex-col items-end space-y-3">
                     <button className="text-gray-400 hover:text-red-500 text-lg">♡</button>
-                    <Link href={`/details?id=${place.id}`}><button className="bg-[#6b4e3d] text-white text-xs px-4 py-2 rounded-lg font-medium hover:bg-[#543b2d]">
+                    <Link href={`/details?id=${place.id}`}><button className="bg-brown text-white text-xs px-4 py-2 rounded-lg font-medium hover:bg-[#543b2d]">
                       View Place
                     </button></Link>
                   </div>
