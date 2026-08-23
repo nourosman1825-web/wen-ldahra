@@ -71,7 +71,7 @@ export default function ResultsPage() {
   });
 
   return (
-    <main className="min-h-screen bg-[#f3e9dd] text-gray-800 p-4 sm:p-6 lg:p-8">
+    <main className="min-h-screen bg-cream text-gray-800 p-4 sm:p-6 lg:p-8">
 
 
       {/* Main Content Area */}
@@ -80,7 +80,7 @@ export default function ResultsPage() {
         {/* Left Side: Results & Cards */}
         <div className="lg:col-span-7 space-y-4">
           <h1 className="text-xl sm:text-2xl font-bold text-gray-900">
-            AI found <span className="text-[#6b4e3d]">{sortedPlaces.length} places</span> for you
+            AI found <span className="text-brown">{sortedPlaces.length} places</span> for you
           </h1>
 
           {/* Quick Sort Options */}
@@ -124,7 +124,7 @@ export default function ResultsPage() {
                       </div>
                       <div className="flex gap-1.5 pt-2 flex-wrap">
                         {place.tags.map((tag, index) => (
-                          <span key={index} className="bg-[#f3e9dd] text-[#6b4e3d] border border-[#6b4e3d] text-[10px] px-2 py-0.5 rounded-md font-medium" >
+                          <span key={index} className="bg-cream text-brown border border-dark-brown text-[10px] px-2 py-0.5 rounded-md font-medium" >
                             {tag}
                           </span>
                         ))}
@@ -151,9 +151,9 @@ export default function ResultsPage() {
         </div>
 
         {/* Right Side: Visual Section */}
-        <div className="hidden lg:flex lg:col-span-5 bg-blue-50/60 rounded-3xl h-[550px] sticky top-6 border border-blue-100/80 flex-col items-center justify-center p-6 text-center shadow-inner">
+        <div className="hidden lg:flex lg:col-span-5 bg-blue-50/60 rounded-3xl h-137.5 sticky top-6 border border-blue-100/80 flex-col items-center justify-center p-6 text-center shadow-inner">
           <div className="text-5xl mb-4">🤖✨</div>
-          <h3 className="font-bold text-[#6b4e3d] text-xl mb-2">AI Recommendation Engine</h3>
+          <h3 className="font-bold text-brown text-xl mb-2">AI Recommendation Engine</h3>
           <p className="text-sm text-gray-500 max-w-xs leading-relaxed">
             Sort your recommendations by Relevance, Rating, or Distance to find the perfect place.
           </p>

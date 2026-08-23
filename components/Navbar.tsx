@@ -10,21 +10,21 @@ const Navigation = () => {
       <div className="flex justify-between items-center">
         {/* Left side: Logo and Brand */}
         <Link href="/" className="flex items-center space-x-2">
-          <span className="bg-[#6b4e3d] text-white p-2 rounded-full font-bold text-sm">💡</span>
-          <span className="font-bold text-base sm:text-lg text-[#6b4e3d] tracking-wide">WEN EL DAHRA</span>
+          <span className="bg-dark-brown text-white p-2 rounded-full font-bold text-sm">💡</span>
+          <span className="font-bold text-base sm:text-lg text-dark-brown tracking-wide">WEN EL DAHRA</span>
         </Link>
 
         {/* Center: Desktop Navigation Links */}
         <div className="hidden md:flex space-x-6 text-sm font-medium text-gray-600">
-          <Link href="/" className="hover:text-[#a67c52] transition">Home</Link>
-          <Link href="/explore" className="hover:text-[#a67c52] transition">Explore</Link>
-          <Link href="/categories/More" className="hover:text-[#a67c52] transition">Categories</Link>
-          <Link href="/about" className="hover:text-[#a67c52] transition">About Us</Link>
+          <Link href="/" className="hover:text-brown transition">Home</Link>
+          <Link href="/explore" className="hover:text-brown transition">Explore</Link>
+          <Link href="/categories/More" className="hover:text-brown transition">Categories</Link>
+          <Link href="/about" className="hover:text-brown transition">About Us</Link>
         </div>
 
         {/* Right side: Action Buttons & Mobile Menu Toggle */}
         <div className="flex items-center space-x-3">
-          <button className="w-8 h-8 bg-[#e6d5c1] text-[#6b4e3d] rounded-full flex items-center justify-center text-sm font-semibold">
+          <button className="w-8 h-8 bg-cream text-dark-brown rounded-full flex items-center justify-center text-sm font-semibold">
             R
           </button>
 
@@ -49,28 +49,28 @@ const Navigation = () => {
           <Link 
             href="/" 
             onClick={() => setIsOpen(false)} 
-            className="hover:text-[#a67c52] py-1 transition"
+            className="hover:text-brown py-1 transition"
           >
             Home
           </Link>
           <Link 
             href="/explore" 
             onClick={() => setIsOpen(false)} 
-            className="hover:text-[#a67c52] py-1 transition"
+            className="hover:text-brown py-1 transition"
           >
             Explore
           </Link>
           <Link 
             href="/categories/More" 
             onClick={() => setIsOpen(false)} 
-            className="hover:text-[#a67c52] py-1 transition"
+            className="hover:text-brown py-1 transition"
           >
             Categories
           </Link>
           <Link 
             href="/about" 
             onClick={() => setIsOpen(false)} 
-            className="hover:text-[#a67c52] py-1 transition"
+            className="hover:text-brown py-1 transition"
           >
             About Us
           </Link>

@@ -107,7 +107,7 @@ export default function Home() {
             className="object-cover"
           />
           {/* Overlay with subtle gradient */}
-          <div className="absolute inset-0 bg-gradient-to-r from-dark-brown/90 via-dark-brown/75 to-transparent" />
+          <div className="absolute inset-0 bg-linear-to-r from-dark-brown/90 via-dark-brown/75 to-transparent" />
 
           <div className="relative h-full flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6 p-6 sm:p-12">
             <div className="max-w-md space-y-2">
