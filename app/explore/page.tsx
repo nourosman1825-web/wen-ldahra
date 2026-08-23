@@ -60,26 +60,7 @@ export default function explore() {
 
   return (
     <main className="min-h-screen bg-[#f3e9dd] text-gray-800 p-6">
-      {/* AI Search Bar Section */}
-      <div className="max-w-7xl mx-auto mb-8 bg-white p-4 rounded-2xl shadow-sm border flex items-center space-x-3">
-        <span className="text-xl">🤖</span>
-        <input 
-          type="text"
-          placeholder="Ask AI: e.g., 'Quiet place with Wi-Fi' or 'Café'..."
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-          className="w-full outline-none text-brown placeholder-gray-400 bg-transparent"
-        />
-        {searchQuery && (
-          <button 
-            onClick={() => setSearchQuery("")}
-            className="text-xs bg-gray-100 px-3 py-1 rounded-full text-brown hover:bg-gray-200"
-          >
-            Clear
-          </button>
-        )}
-      </div>
-
+      
       {/* Main Content Area */}
       <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8">
         
