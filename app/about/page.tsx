@@ -1,6 +1,9 @@
 // app/about/page.tsx
 import type { Metadata } from "next";
 import Image from "next/image";
+import Link from "next/link";
+import ContactForm from "../../components/contact_form"; 
+
 
 export const metadata: Metadata = {
   title: "About — WEN EL DAHRA",
@@ -27,11 +30,18 @@ export default function AboutPage() {
 
             <p className="text-sm sm:text-base md:text-lg text-dark-brown max-w-xl leading-relaxed mt-3 sm:mt-4">
               Welcome to WEN EL DAHRA. We have designed a highly-refined digital
-              companion that maps your mood to the city’s finest pockets. Through
+              companion that maps your mood to the city's finest pockets. Through
               elegant AI integration, we curate sunlit rooftops, historic cafes, and
               underground culinary secrets specifically tailored to your sensory
               profile.
             </p>
+
+            {/* Contact Button */}
+            <Link href="/contact">
+              <button className="mt-4 bg-brown hover:bg-dark-brown text-white font-medium py-2.5 px-6 rounded-xl transition shadow-sm active:scale-95 text-sm">
+                Get In Touch
+              </button>
+            </Link>
           </div>
 
           <div className="relative w-full md:w-64 lg:w-80 xl:w-96 h-48 sm:h-56 md:h-64 lg:h-72 xl:h-80 rounded-2xl overflow-hidden shadow-md border border-brown/10 flex-shrink-0 bg-beige">
@@ -64,10 +74,10 @@ export default function AboutPage() {
               Quick Links
             </h4>
             <ul className="space-y-2 text-sm text-beige/70">
-              <li><a href="#" className="hover:text-white transition">About</a></li>
-              <li><a href="#" className="hover:text-white transition">Explore</a></li>
-              <li><a href="#" className="hover:text-white transition">Categories</a></li>
-              <li><a href="#" className="hover:text-white transition">Contact</a></li>
+              <li><Link href="/about" className="hover:text-white transition">About</Link></li>
+              <li><Link href="/result" className="hover:text-white transition">Explore</Link></li>
+              <li><Link href="/more" className="hover:text-white transition">Categories</Link></li>
+              <li><Link href="/contact" className="hover:text-white transition">Contact</Link></li>
             </ul>
           </div>
 
