@@ -8,7 +8,6 @@ export default function explore() {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedTag, setSelectedTag] = useState("All");
 
-  
   const allPlaces = [
     {
       id: 1,
@@ -48,7 +47,6 @@ export default function explore() {
     }
   ];
 
-  // تصفية الأماكن بناءً على البحث أو اختيار التاج
   const filteredPlaces = allPlaces.filter(place => {
     const matchesSearch = place.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
                           place.tags.some(tag => tag.toLowerCase().includes(searchQuery.toLowerCase()));
