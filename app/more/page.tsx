@@ -17,7 +17,7 @@ export default function MoreCategoriesPage() {
     { name: 'Gyms', icon: '💪', description: 'Stay fit at premium gyms' },
     { name: 'Hotels', icon: '🏨', description: 'Luxury and budget accommodations' },
     { name: 'Beaches', icon: '🏖️', description: 'Beautiful coastal destinations' },
-    { name: 'Historical Sites', icon: '🏛️', description: 'Explore Lebanon\'s rich history' },
+    { name: 'Historical Sites', icon: '🏛️', description: "Explore Lebanon's rich history" },
     { name: 'Spa & Wellness', icon: '🧖', description: 'Relax and rejuvenate' },
     { name: 'Museums', icon: '🖼️', description: 'Art and cultural exhibitions' },
     { name: 'Bakeries', icon: '🥐', description: 'Fresh pastries and baked goods' },
@@ -40,7 +40,7 @@ export default function MoreCategoriesPage() {
           <p className="text-sm text-text/70 mt-2">Browse all available categories and discover new places</p>
         </div>
 
-        {/* Categories Grid */}
+        {/* Categories Grid with Descriptions */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           {allCategories.map((category) => (
             <div

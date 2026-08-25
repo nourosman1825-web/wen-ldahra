@@ -4,29 +4,40 @@
 import Image from "next/image";
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import CategoryButtons from '.././components/buttons'; // Import the component
 
 export default function Home() {
   const router = useRouter();
   const [searchQuery, setSearchQuery] = useState("");
-  const [error,setError]=useState("");
+  const [error, setError] = useState("");
 
-  function handleSearch (e: React.FormEvent)  {
-     e.preventDefault();
+  const categories = [
+    { name: 'Cafés', icon: '☕' },
+    { name: 'Restaurants', icon: '🍽️' },
+    { name: 'Parks', icon: '🌳' },
+    { name: 'Shopping', icon: '🛍️' },
+    { name: 'Entertainment', icon: '🎭' },
+    { name: 'Gyms', icon: '💪' },
+    { name: 'More', icon: '⋯' },
+  ];
+
+  function handleSearch(e: React.FormEvent) {
+    e.preventDefault();
     if (!searchQuery || searchQuery.trim() === "") {
       setError("please enter what you're looking for");
       return;
     }
-    const availidPlaces=["parcks","restaurant", "cafes","beaches"];
-    const isValidPlace= availidPlaces.some(place=>
+    const availidPlaces = ["parcks", "restaurant", "cafes", "beaches"];
+    const isValidPlace = availidPlaces.some(place =>
       place.toLowerCase().includes(searchQuery.toLowerCase())
     );
-    if(!isValidPlace){
+    if (!isValidPlace) {
       setError("this place is not available or invalid");
       return;
     }
     setError("");
-      router.push(`/result?query=${encodeURIComponent(searchQuery)}`);
-    }
+    router.push(`/result?query=${encodeURIComponent(searchQuery)}`);
+  }
 
   const handleExploreClick = () => {
     router.push('/result');
@@ -99,24 +110,11 @@ export default function Home() {
           <p className="text-xs sm:text-sm text-text/70 mt-1">Browse places by type</p>
         </div>
 
-<div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-7 gap-3 sm:gap-4">
-  {categories.map((category) => (
-    <div
-      key={category.name}
-      onClick={() => {
-        if (category.name === 'More') {
-          router.push('/more');
-        } else {
-          handleCategoryClick(category.name);
-        }
-      }}
-      className="bg-white/80 hover:bg-brown hover:text-white  border-beige rounded-2xl p-4 text-center cursor-pointer transition-all duration-200 shadow-sm hover:shadow-md flex flex-col items-center justify-center gap-2 group hover:-translate-y-1"
-    >
-      <span className="text-3xl group-hover:scale-110 transition-transform">{category.icon}</span>
-      <span className="font-semibold text-xs sm:text-sm">{category.name}</span>
-    </div>
-  ))}
-</div>
+        {/* Use the reusable component */}
+        <CategoryButtons 
+          categories={categories}
+          onCategoryClick={handleCategoryClick}
+        />
       </section>
 
       {/* Popular Near You Section */}
@@ -152,13 +150,3 @@ export default function Home() {
     </main>
   );
 }
-
-const categories = [
-  { name: 'Cafés', icon: '☕' },
-  { name: 'Restaurants', icon: '🍽️' },
-  { name: 'Parks', icon: '🌳' },
-  { name: 'Shopping', icon: '🛍️' },
-  { name: 'Entertainment', icon: '🎭' },
-  { name: 'Gyms', icon: '💪' },
-  { name: 'More', icon: '⋯' },
-];

@@ -4,11 +4,11 @@ import React, { useState } from 'react';
 import Link from 'next/link';
 
 export default function explore() {
-  // شريط البحث وحالة النص المدخل
+
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedTag, setSelectedTag] = useState("All");
 
-  // قائمة الأماكن الحقيقية مع التاجز (Tags) الخاصة بكل مكان
+  
   const allPlaces = [
     {
       id: 1,
@@ -59,7 +59,7 @@ export default function explore() {
   });
 
   return (
-    <main className="min-h-screen bg-cream text-gray-800 p-6">
+    <main className="min-h-screen bg-[#f3e9dd] text-gray-800 p-6">
       
       {/* Main Content Area */}
       <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8">
@@ -102,7 +102,7 @@ export default function explore() {
                       </div>
                       <div className="flex gap-1 mt-2 flex-wrap">
                         {place.tags.map((tag, index) => (
-                          <span key={index} className="bg-cream text-brown border border-dark-brown text-[10px] px-2 py-0.5 rounded-md font-medium">
+                          <span key={index} className="bg-cream text- border border-[#6b4e3d] text-[10px] px-2 py-0.5 rounded-md font-medium">
                             {tag}
                           </span>
                         ))}
@@ -126,7 +126,7 @@ export default function explore() {
         </div>
 
         {/* Right Side: Visual Section */}
-        <div className="lg:col-span-5 bg-blue-50 rounded-2xl h-137.5 relative overflow-hidden border border-blue-100 flex flex-col items-center justify-center p-6 text-center shadow-inner">
+        <div className="lg:col-span-5 bg-blue-50 rounded-2xl h-[550px] relative overflow-hidden border border-blue-100 flex flex-col items-center justify-center p-6 text-center shadow-inner">
           <div className="text-4xl mb-3">🤖✨</div>
           <h3 className="font-bold text-brown text-lg mb-1">AI Recommendation Engine</h3>
           <p className="text-sm text-gray-500 max-w-xs">
