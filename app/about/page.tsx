@@ -66,56 +66,7 @@ export default function AboutPage() {
         </p>
       </section>
 
-      <footer className="mt-8 -mx-5 sm:-mx-8 md:-mx-10 px-5 sm:px-8 md:px-10 py-8 bg-dark-brown rounded-2xl">
-
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 sm:gap-8">
-          <div>
-            <h4 className="text-[10px] sm:text-xs font-semibold uppercase tracking-wider text-beige/80 mb-3">
-              Quick Links
-            </h4>
-            <ul className="space-y-2 text-sm text-beige/70">
-              <li><Link href="/about" className="hover:text-white transition">About</Link></li>
-              <li><Link href="/result" className="hover:text-white transition">Explore</Link></li>
-              <li><Link href="/more" className="hover:text-white transition">Categories</Link></li>
-              <li><Link href="/contact" className="hover:text-white transition">Contact</Link></li>
-            </ul>
-          </div>
-
-          <div>
-            <h4 className="text-[10px] sm:text-xs font-semibold uppercase tracking-wider text-beige/80 mb-3">
-              Resources
-            </h4>
-            <ul className="space-y-2 text-sm text-beige/70">
-              <li><a href="#" className="hover:text-white transition">Blog</a></li>
-              <li><a href="#" className="hover:text-white transition">FAQ</a></li>
-              <li><a href="#" className="hover:text-white transition">Privacy</a></li>
-              <li><a href="#" className="hover:text-white transition">Terms</a></li>
-            </ul>
-          </div>
-
-          <div>
-            <h4 className="text-[10px] sm:text-xs font-semibold uppercase tracking-wider text-beige/80 mb-3">
-              Connect With Us
-            </h4>
-            <div className="flex gap-4 text-sm text-beige/70">
-              <a href="#" className="hover:text-white transition">Instagram</a>
-              <a href="#" className="hover:text-white transition">Twitter</a>
-              <a href="#" className="hover:text-white transition">Facebook</a>
-            </div>
-          </div>
-        </div>
-
-        <div className="border-t border-beige/20 my-6"></div>
-
-        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 text-xs text-beige/60">
-          <span>&copy; 2026 WEN EL DAHRA. All rights reserved.</span>
-          <div className="flex gap-3">
-            <a href="#" className="hover:text-white transition">Privacy Policy</a>
-            <span className="text-beige/30">|</span>
-            <a href="#" className="hover:text-white transition">Terms of Service</a>
-          </div>
-        </div>
-      </footer>
+     
     </main>
   );
 }

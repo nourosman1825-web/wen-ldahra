@@ -4,7 +4,7 @@
 import Image from "next/image";
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import CategoryButtons from '.././components/buttons'; // Import the component
+import CategoryButtons from '.././components/buttons';
 
 export default function Home() {
   const router = useRouter();
