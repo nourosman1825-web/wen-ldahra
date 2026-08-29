@@ -63,10 +63,10 @@ function PlaceDetailsContent() {
   const currentImage = activeImage || place.image;
 
   return (
-    <div className="min-h-screen bg-[#f3e9dd] pb-12 sm:pb-16">
+    <div className="min-h-screen bg-cream pb-12 sm:pb-16">
       {/* Top Navigation */}
       <div className="max-w-6xl mx-auto px-4 sm:px-6 py-4">
-        <Link href="/explore" className="text-[#6b4e3d] hover:underline font-medium text-sm inline-flex items-center gap-1">
+        <Link href="/explore" className="text-dark-brown hover:underline font-medium text-sm inline-flex items-center gap-1">
           ← Back to results
         </Link>
       </div>
@@ -77,7 +77,7 @@ function PlaceDetailsContent() {
         <div className="lg:col-span-8 space-y-6">
           
           {/* Main Image */}
-          <div className="w-full h-56 sm:h-80 md:h-[400px] rounded-2xl sm:rounded-3xl overflow-hidden shadow-sm bg-white border border-gray-100">
+          <div className="w-full h-56 sm:h-80 md:h-100 rounded-2xl sm:rounded-3xl overflow-hidden shadow-sm bg-white border border-gray-100">
             <img 
               src={currentImage} 
               alt={place.name} 
@@ -91,7 +91,7 @@ function PlaceDetailsContent() {
               <div 
                 key={index} 
                 onClick={() => setActiveImage(imgUrl)}
-                className={`w-20 h-16 sm:w-24 sm:h-20 rounded-xl sm:rounded-2xl overflow-hidden bg-gray-200 flex-shrink-0 border-2 cursor-pointer transition-all ${
+                className={`w-20 h-16 sm:w-24 sm:h-20 rounded-xl sm:rounded-2xl overflow-hidden bg-gray-200 shrink-0 border-2 cursor-pointer transition-all ${
                   currentImage === imgUrl ? 'border-blue-600 scale-105 shadow-md' : 'border-transparent opacity-80 hover:opacity-100'
                 }`}
               >
@@ -185,7 +185,7 @@ function PlaceDetailsContent() {
                 href={place.mapLink} 
                 target="_blank" 
                 rel="noopener noreferrer"
-                className="block w-full bg-[#6b4e3d] hover:bg-[#543b2d] text-white py-3 sm:py-3.5 rounded-xl sm:rounded-2xl font-bold transition shadow-sm text-center text-sm sm:text-base"
+                className="block w-full bg-dark-brown hover:bg-[#543b2d] text-white py-3 sm:py-3.5 rounded-xl sm:rounded-2xl font-bold transition shadow-sm text-center text-sm sm:text-base"
               >
                 View on Map
               </a>

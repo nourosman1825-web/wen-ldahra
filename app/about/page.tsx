@@ -44,7 +44,7 @@ export default function AboutPage() {
             </Link>
           </div>
 
-          <div className="relative w-full md:w-64 lg:w-80 xl:w-96 h-48 sm:h-56 md:h-64 lg:h-72 xl:h-80 rounded-2xl overflow-hidden shadow-md border border-brown/10 flex-shrink-0 bg-beige">
+          <div className="relative w-full md:w-64 lg:w-80 xl:w-96 h-48 sm:h-56 md:h-64 lg:h-72 xl:h-80 rounded-2xl overflow-hidden shadow-md border border-brown/10 shrink-0 bg-beige">
             <Image
               src="/photos/aboutus.jpeg"
               alt="WEN EL DAHRA - Architectural beauty"
