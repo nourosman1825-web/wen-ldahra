@@ -39,13 +39,28 @@ export default function Home() {
     router.push(`/result?query=${encodeURIComponent(searchQuery)}`);
   }
 
-  const handleExploreClick = () => {
-    router.push('/result');
-  };
-
   // This function handles category clicks and navigates to results page with category filter
   const handleCategoryClick = (categoryName: string) => {
     router.push(`/result?category=${encodeURIComponent(categoryName)}`);
+  };
+
+  const handleExploreClick = () => {
+    if (!navigator.geolocation) {
+      alert("Geolocation isn't supported by your browser.");
+      return;
+    }
+
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        const { latitude, longitude } = position.coords;
+        const mapsUrl = `https://www.google.com/maps/search/places+near+me/@${latitude},${longitude},15z`;
+        window.open(mapsUrl, "_blank");
+      },
+      (error) => {
+        console.error("Geolocation error:", error);
+        alert("We couldn't get your location. Please allow location access and try again.");
+      }
+    );
   };
 
   return (
@@ -117,7 +132,7 @@ export default function Home() {
         />
       </section>
 
-      {/* Popular Near You Section */}
+  {/* Popular Near You Section */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-12 sm:pb-16">
         <div className="relative rounded-3xl overflow-hidden shadow-lg h-72 sm:h-80 border border-beige/30">
           <Image
@@ -145,7 +160,8 @@ export default function Home() {
             </button>
           </div>
         </div>
-      </section>
+      </section> 
+
 
     </main>
   );
