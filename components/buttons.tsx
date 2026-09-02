@@ -7,14 +7,14 @@ import { useRouter } from 'next/navigation';
 interface Category {
   name: string;
   icon: string;
-  description?: string; // Optional description
+  description?: string;
 }
 
 interface CategoryButtonsProps {
   categories: Category[];
   onCategoryClick?: (categoryName: string) => void;
   className?: string;
-  showDescriptions?: boolean; // Toggle descriptions
+  showDescriptions?: boolean;
 }
 
 export default function CategoryButtons({ 
@@ -28,12 +28,10 @@ export default function CategoryButtons({
   const handleClick = (categoryName: string) => {
     if (categoryName === 'More') {
       router.push('/more');
+    } else if (onCategoryClick) {
+      onCategoryClick(categoryName);
     } else {
-      if (onCategoryClick) {
-        onCategoryClick(categoryName);
-      } else {
-        router.push(`/result?category=${encodeURIComponent(categoryName)}`);
-      }
+      router.push(`/result?category=${encodeURIComponent(categoryName)}`);
     }
   };
 

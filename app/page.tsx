@@ -2,14 +2,29 @@
 "use client";
 
 import Image from "next/image";
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import CategoryButtons from '.././components/buttons';
+import CategoryButtons from '../components/buttons';
+
+interface Event {
+  id: string;
+  title: string;
+  description: string;
+  category: string;
+  image: string;
+  date: string;
+  isSale?: boolean;
+  discount?: string;
+  location: string;
+}
 
 export default function Home() {
   const router = useRouter();
   const [searchQuery, setSearchQuery] = useState("");
   const [error, setError] = useState("");
+  const [allEvents, setAllEvents] = useState<Event[]>([]);
+  const [displayEvents, setDisplayEvents] = useState<Event[]>([]);
+  const [loading, setLoading] = useState(true);
 
   const categories = [
     { name: 'Cafés', icon: '☕' },
@@ -20,6 +35,82 @@ export default function Home() {
     { name: 'Gyms', icon: '💪' },
     { name: 'More', icon: '⋯' },
   ];
+
+  // Sample data - replace with API call later
+  const sampleEvents: Event[] = [
+    {
+      id: '1',
+      title: '☕ Summer Coffee Sale',
+      description: 'Get 20% off on all iced beverages and cold brews',
+      category: 'Cafés',
+      image: 'https://images.unsplash.com/photo-1461023058943-07fcbe16d735?w=800&h=400&fit=crop',
+      date: 'Aug 15-30',
+      isSale: true,
+      discount: '20% OFF',
+      location: 'Downtown'
+    },
+    {
+      id: '2',
+      title: '🎵 Live Jazz Night',
+      description: 'Enjoy live jazz performances every Friday',
+      category: 'Entertainment',
+      image: 'https://images.unsplash.com/photo-1524368535928-5b5e00ddc76b?w=800&h=400&fit=crop',
+      date: 'Every Friday',
+      isSale: false,
+      location: 'City Center'
+    },
+    {
+      id: '3',
+      title: '🍽️ Chef\'s Tasting Menu',
+      description: 'New 7-course tasting menu with 15% off',
+      category: 'Restaurants',
+      image: 'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=800&h=400&fit=crop',
+      date: 'Starting Aug 20',
+      isSale: true,
+      discount: '15% OFF',
+      location: 'The Plaza'
+    },
+    {
+      id: '4',
+      title: '🛍️ Summer Fashion Sale',
+      description: 'Up to 50% off on summer collection',
+      category: 'Shopping',
+      image: 'https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=800&h=400&fit=crop',
+      date: 'Aug 1-31',
+      isSale: true,
+      discount: '50% OFF',
+      location: 'Fashion District'
+    },
+    {
+      id: '5',
+      title: '🏋️ Fitness Bootcamp',
+      description: '50% off first month membership',
+      category: 'Gyms',
+      image: 'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=800&h=400&fit=crop',
+      date: 'Sep 1-30',
+      isSale: true,
+      discount: '50% OFF',
+      location: 'City Gym'
+    },
+    {
+      id: '6',
+      title: '🌳 Summer Festival',
+      description: 'Live performances and family activities',
+      category: 'Parks',
+      image: 'https://images.unsplash.com/photo-1508514177221-188b1cf16e9d?w=800&h=400&fit=crop',
+      date: 'Aug 25-27',
+      isSale: false,
+      location: 'Central Park'
+    }
+  ];
+
+  useEffect(() => {
+    // Simulate API call
+    setAllEvents(sampleEvents);
+    // Show only first 3 events on home page
+    setDisplayEvents(sampleEvents.slice(0, 3));
+    setLoading(false);
+  }, []);
 
   function handleSearch(e: React.FormEvent) {
     e.preventDefault();
@@ -39,7 +130,6 @@ export default function Home() {
     router.push(`/result?query=${encodeURIComponent(searchQuery)}`);
   }
 
-  // This function handles category clicks and navigates to results page with category filter
   const handleCategoryClick = (categoryName: string) => {
     router.push(`/result?category=${encodeURIComponent(categoryName)}`);
   };
@@ -62,6 +152,21 @@ export default function Home() {
       }
     );
   };
+
+  const handleEventClick = (event: Event) => {
+    router.push(`/sales?id=${event.id}`);
+  };
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-cream flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-brown mx-auto"></div>
+          <p className="mt-4 text-text/70">Loading amazing deals...</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <main className="min-h-screen bg-cream">
@@ -86,7 +191,6 @@ export default function Home() {
               Search with AI and find the best places near you in seconds. Just describe what you need, naturally.
             </p>
 
-            {/* Search Bar Form */}
             <form onSubmit={handleSearch} className="max-w-xl flex flex-col sm:flex-row gap-2 pt-2">
               <input
                 type="text"
@@ -125,14 +229,85 @@ export default function Home() {
           <p className="text-xs sm:text-sm text-text/70 mt-1">Browse places by type</p>
         </div>
 
-        {/* Use the reusable component */}
         <CategoryButtons 
           categories={categories}
           onCategoryClick={handleCategoryClick}
         />
       </section>
 
-  {/* Popular Near You Section */}
+      {/* Sales & Events Section - Show Only 3 */}
+{/* Sales & Events Section - Show Only 3 */}
+<section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-12 border-t border-beige/30">
+  <div className="flex justify-between items-center mb-6">
+    <div>
+      <h2 className="text-2xl sm:text-3xl font-bold text-dark-brown font-muted">
+        Sales & Events
+      </h2>
+      <p className="text-xs sm:text-sm text-text/70 mt-1">
+        Don't miss out on the best deals and happening events around you
+      </p>
+    </div>
+    <button 
+      onClick={() => router.push('/allsales')}
+      className="text-brown hover:text-dark-brown font-medium text-sm flex items-center gap-1 transition hover:translate-x-1"
+    >
+      View All →
+    </button>
+  </div>
+
+  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+    {displayEvents.map((event) => (
+      <div 
+        key={event.id}
+        onClick={() => handleEventClick(event)}
+        className="group bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 cursor-pointer border border-beige/30 hover:border-brown/30"
+      >
+        <div className="relative h-48 overflow-hidden">
+          <img
+            src={event.image}
+            alt={event.title}
+            className="w-full h-full object-cover group-hover:scale-105 transition duration-500"
+          />
+          {event.isSale && event.discount && (
+            <div className="absolute top-3 right-3 bg-red-500 text-white text-xs font-bold px-3 py-1.5 rounded-full shadow-md animate-pulse">
+              {event.discount}
+            </div>
+          )}
+          <div className="absolute bottom-3 left-3 bg-black/60 backdrop-blur-sm text-white text-xs px-2.5 py-1 rounded-full">
+            {event.category}
+          </div>
+        </div>
+
+        <div className="p-4 sm:p-5 space-y-2">
+          <div className="flex items-start justify-between">
+            <h3 className="font-bold text-text text-sm sm:text-base group-hover:text-brown transition-colors">
+              {event.title}
+            </h3>
+            <span className="text-xs text-text/50 flex items-center gap-1">
+              📍 {event.location}
+            </span>
+          </div>
+          
+          <p className="text-text/70 text-xs sm:text-sm line-clamp-2">
+            {event.description}
+          </p>
+
+          <div className="flex items-center justify-between pt-2 border-t border-beige/30">
+            <span className="text-xs text-brown font-medium flex items-center gap-1">
+              🗓️ {event.date}
+            </span>
+            <button className="text-xs text-brown hover:text-dark-brown font-medium flex items-center gap-1 group-hover:translate-x-1 transition-transform">
+              Learn More →
+            </button>
+          </div>
+        </div>
+      </div>
+    ))}
+  </div>
+</section>      
+      
+
+      {/* Popular Near You Section */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-12 sm:pb-16">
         <div className="relative rounded-3xl overflow-hidden shadow-lg h-72 sm:h-80 border border-beige/30">
           <Image
@@ -160,9 +335,7 @@ export default function Home() {
             </button>
           </div>
         </div>
-      </section> 
-
-
+      </section>
     </main>
   );
 }
