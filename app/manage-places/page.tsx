@@ -4,12 +4,14 @@ import Link from "next/link";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { Place } from "@/app/generated/prisma/client";
 import { axiosGet, axiosDelete } from "@/app/lib/axios";
+import { useRouter } from "next/navigation";
 
 function errorMessage(error: unknown): string | null {
   return error instanceof Error ? error.message : null;
 }
 
 export default function ManagePlacesPage() {
+  const route = useRouter();
   const queryClient = useQueryClient();
 
   const {
@@ -80,7 +82,13 @@ export default function ManagePlacesPage() {
                     <td className="px-5 py-3 font-medium text-gray-800">{place.name}</td>
                     <td className="px-5 py-3 text-gray-500">{place.category}</td>
                     <td className="px-5 py-3 text-amber-600">★ {place.rating.toFixed(1)}</td>
-                    <td className="px-5 py-3 text-right">
+                      <td className="px-5 py-3 text-right">
+                    <button
+                         onClick={() => route.push(`/manage-places/edit/${place.id}`)}
+                         className ="text-blue-500 hover:text-blue-700 font-medium text-xs mr-4"
+                    >
+                      Edit
+                    </button>
                       <button
                         onClick={() => handleDelete(place)}
                         disabled={
