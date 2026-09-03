@@ -1,8 +1,9 @@
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import Navbar from "../components/Navbar";
-import Footer from "../components/Footer"; 
+import Footer from "../components/Footer";
 import localFont from "next/font/local";
+import QueryProvider from "./lib/QueryProvider";
 
 const prociono = localFont({
     src: "./fonts/Prociono-Regular.ttf",
@@ -28,9 +29,11 @@ export default function RootLayout({
     return (
         <html lang="en">
             <body className={`${prociono.variable} antialiased bg-gray-50 text-gray-900 min-h-screen`}>
-                <Navbar />
-                {children}
-                <Footer /> {/* Add Footer here */}
+                <QueryProvider>
+                    <Navbar />
+                    {children}
+                    <Footer />
+                </QueryProvider>
             </body>
         </html>
     );
