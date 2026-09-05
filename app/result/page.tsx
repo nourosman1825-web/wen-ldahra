@@ -3,8 +3,19 @@ import React, { useState, useEffect, Suspense } from 'react';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import { useQuery } from '@tanstack/react-query';
-import { Place } from '@/app/generated/prisma/client';
-import { axiosGet } from '@/app/lib/axios';
+import { axiosPost } from '@/app/lib/axios';
+
+interface Place {
+  id: string;
+  name: string;
+  description?: string;
+  category: string;
+  rating: number;
+  reviewCount?: number;
+  distance?: number;
+  image?: string;
+  tags?: string[];
+}
 
 function errorMessage(error: unknown): string | null {
   return error instanceof Error ? error.message : null;
@@ -35,40 +46,42 @@ function ResultsContent() {
 
   // Get query params on mount
   useEffect(() => {
-    const query = searchParams.get('q');
+    const query = searchParams.get('query');
     const category = searchParams.get('category');
     if (query) setSearchQuery(query);
     if (category) setSelectedCategory(category);
   }, [searchParams]);
 
+  // جلب الأماكن بالاعتماد على الـ AI Search API
   const {
-    data: allPlaces,
+    data: placesData,
     isLoading,
     error,
-  } = useQuery<Place[]>({
-    queryKey: ["places"],
+  } = useQuery<{ places: Place[] }>({
+    queryKey: ["ai-search", searchQuery],
     queryFn: async () => {
-      const response = await axiosGet<Place[]>("/places");
-      return response.data || [];
+      const response = await axiosPost<{ query: string }, { places: Place[] }>("search/", {
+        query: searchQuery,
+      });
+      return response.data || { places: [] };
     },
+    enabled: true//
   });
 
-  // Filter by search and category
-  const filteredPlaces = (allPlaces ?? []).filter(place => {
-    const matchesSearch = place.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                          place.tags.some(tag => tag.toLowerCase().includes(searchQuery.toLowerCase()));
+  const allPlaces = placesData?.places ?? [];
 
+  // Filter by category if selected
+  const filteredPlaces = allPlaces.filter(place => {
     const matchesCategory = !selectedCategory || selectedCategory === 'More' ||
                            place.category === selectedCategory;
-
-    return matchesSearch && matchesCategory;
+    return matchesCategory;
   });
 
   // Sort the filtered results
   const sortedPlaces = [...filteredPlaces].sort((a, b) => {
     switch(selectedSort) {
       case 'Rating':
-        return b.rating - a.rating;
+        return (b.rating || 0) - (a.rating || 0);
       case 'Distance':
         return (a.distance ?? Infinity) - (b.distance ?? Infinity);
       case 'Relevance':
@@ -78,10 +91,10 @@ function ResultsContent() {
   });
 
   return (
-    <main className="min-h-screen bg-cream text-gray-800 p-4 sm:p-6 lg:p-8">
+    <main className="min-h-screen bg-cream text-gray-800">
+      
 
-      {/* Main Content Area */}
-      <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8">
+      <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 p-4 sm:p-6 lg:p-8">
 
         {/* Left Side: Results & Cards */}
         <div className="lg:col-span-7 space-y-4">
@@ -124,8 +137,8 @@ function ResultsContent() {
 
           {/* Loading state */}
           {isLoading && (
-            <div className="bg-white p-8 rounded-2xl text-center border border-gray-100 text-gray-500 text-sm">
-              <p>Loading places...</p>
+            <div className="bg-white p-8 rounded-2xl text-center border border-gray-100 text-gray-500 text-sm animate-pulse">
+              <p>AI is finding the best places for you...</p>
             </div>
           )}
 
@@ -143,7 +156,7 @@ function ResultsContent() {
                 sortedPlaces.map((place) => (
                   <div
                     key={place.id}
-                    className="bg-white p-4 rounded-2xl shadow-sm border border-gray-100 flex flex-col sm:flex-row sm:items-center justify-between gap-4 hover:scale-110 transition-transform"
+                    className="bg-white p-4 rounded-2xl shadow-sm border border-gray-100 flex flex-col sm:flex-row sm:items-center justify-between gap-4 hover:scale-[1.02] transition-transform"
                   >
                     <div className="flex flex-col sm:flex-row sm:items-center gap-4">
                       {place.image ? (
@@ -160,8 +173,8 @@ function ResultsContent() {
                       <div className="space-y-1">
                         <h3 className="font-bold text-gray-900 text-base sm:text-lg">{place.name}</h3>
                         <div className="text-xs text-gray-500 flex items-center space-x-2 flex-wrap gap-y-1">
-                          <span className="text-amber-500 font-semibold">★ {place.rating.toFixed(1)}</span>
-                          <span>({place.reviewCount})</span>
+                          <span className="text-amber-500 font-semibold">★ {place.rating ? place.rating.toFixed(1) : "N/A"}</span>
+                          <span>({place.reviewCount ?? 0})</span>
                           <span>•</span>
                           <span>{place.distance != null ? `${place.distance} km` : "—"}</span>
                           <span>•</span>
@@ -169,8 +182,11 @@ function ResultsContent() {
                             {place.category}
                           </span>
                         </div>
+                        {place.description && (
+                          <p className="text-xs text-gray-600 line-clamp-1 mt-1">{place.description}</p>
+                        )}
                         <div className="flex gap-1.5 pt-2 flex-wrap">
-                          {place.tags.map((tag, index) => (
+                          {place.tags?.map((tag, index) => (
                             <span key={index} className="bg-cream text-brown border border-dark-brown text-[10px] px-2 py-0.5 rounded-md font-medium">
                               {tag}
                             </span>
@@ -192,7 +208,7 @@ function ResultsContent() {
               ) : (
                 <div className="bg-white p-8 rounded-2xl text-center border border-gray-100 text-gray-500 text-sm">
                   <p className="mb-2">No places found matching your search.</p>
-                  <p className="text-xs">Try searching for different tags or clear the category filter.</p>
+                  <p className="text-xs">Try searching for different keywords or clear the filters.</p>
                 </div>
               )}
             </div>

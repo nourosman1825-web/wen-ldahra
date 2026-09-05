@@ -118,14 +118,6 @@ export default function Home() {
       setError("please enter what you're looking for");
       return;
     }
-    const availidPlaces = ["parcks", "restaurant", "cafes", "beaches"];
-    const isValidPlace = availidPlaces.some(place =>
-      place.toLowerCase().includes(searchQuery.toLowerCase())
-    );
-    if (!isValidPlace) {
-      setError("this place is not available or invalid");
-      return;
-    }
     setError("");
     router.push(`/result?query=${encodeURIComponent(searchQuery)}`);
   }
