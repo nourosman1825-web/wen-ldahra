@@ -17,3 +17,14 @@ export interface IPlace {
   tags?: string[];
   address?: string;
 }
+export interface ISale {
+  id?: number;
+  title: string;
+  description?: string;
+  category: string;
+  image?: string;
+  date?: string;
+  isSale?: boolean;
+  discount?: string;
+  location?: string;
+}

@@ -55,3 +55,15 @@ model Favorite {
 
   @@unique([userId, placeId]) // prevents favoriting the same place twice
 }
+model Sale {
+  id          Int      @id @default(autoincrement())
+  title       String
+  description String?
+  category    String
+  image       String?
+  date        String?
+  isSale      Boolean  @default(false)
+  discount    String?
+  location    String?
+  createdAt   DateTime @default(now())
+}
