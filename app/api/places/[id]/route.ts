@@ -1,4 +1,3 @@
-// this page for places api route get one, update and delete by id
 
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/app/lib/prisma";

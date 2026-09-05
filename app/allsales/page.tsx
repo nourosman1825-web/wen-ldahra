@@ -1,9 +1,11 @@
 // app/allsales/page.tsx
 "use client";
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import { useQuery } from "@tanstack/react-query";
+import { axiosGet } from "@/app/lib/axios";
 
 interface Event {
   id: string;
@@ -19,96 +21,21 @@ interface Event {
 
 export default function AllSales() {
   const router = useRouter();
-  const [allEvents, setAllEvents] = useState<Event[]>([]);
-  const [filteredEvents, setFilteredEvents] = useState<Event[]>([]);
   const [selectedCategory, setSelectedCategory] = useState<string>('All');
-  const [loading, setLoading] = useState(true);
 
-  // Sample data
-  const sampleEvents: Event[] = [
-    {
-      id: '1',
-      title: '☕ Summer Coffee Sale',
-      description: 'Get 20% off on all iced beverages and cold brews',
-      category: 'Cafés',
-      image: 'https://images.unsplash.com/photo-1461023058943-07fcbe16d735?w=800&h=400&fit=crop',
-      date: 'Aug 15-30',
-      isSale: true,
-      discount: '20% OFF',
-      location: 'Downtown'
+  const { data: allEvents = [], isLoading: loading } = useQuery<Event[]>({
+    queryKey: ["sales"],
+    queryFn: async () => {
+      const response = await axiosGet<Event[]>("/sales");
+      return response.data || [];
     },
-    {
-      id: '2',
-      title: '🎵 Live Jazz Night',
-      description: 'Enjoy live jazz performances every Friday',
-      category: 'Entertainment',
-      image: 'https://images.unsplash.com/photo-1524368535928-5b5e00ddc76b?w=800&h=400&fit=crop',
-      date: 'Every Friday',
-      isSale: false,
-      location: 'City Center'
-    },
-    {
-      id: '3',
-      title: '🍽️ Chef\'s Tasting Menu',
-      description: 'New 7-course tasting menu with 15% off',
-      category: 'Restaurants',
-      image: 'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=800&h=400&fit=crop',
-      date: 'Starting Aug 20',
-      isSale: true,
-      discount: '15% OFF',
-      location: 'The Plaza'
-    },
-    {
-      id: '4',
-      title: '🛍️ Summer Fashion Sale',
-      description: 'Up to 50% off on summer collection',
-      category: 'Shopping',
-      image: 'https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=800&h=400&fit=crop',
-      date: 'Aug 1-31',
-      isSale: true,
-      discount: '50% OFF',
-      location: 'Fashion District'
-    },
-    {
-      id: '5',
-      title: '🏋️ Fitness Bootcamp',
-      description: '50% off first month membership',
-      category: 'Gyms',
-      image: 'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=800&h=400&fit=crop',
-      date: 'Sep 1-30',
-      isSale: true,
-      discount: '50% OFF',
-      location: 'City Gym'
-    },
-    {
-      id: '6',
-      title: '🌳 Summer Festival',
-      description: 'Live performances and family activities',
-      category: 'Parks',
-      image: 'https://images.unsplash.com/photo-1508514177221-188b1cf16e9d?w=800&h=400&fit=crop',
-      date: 'Aug 25-27',
-      isSale: false,
-      location: 'Central Park'
-    }
-  ];
+  });
 
-  // Get unique categories
-  const categories = ['All', ...new Set(sampleEvents.map(event => event.category))];
+  const categories = ['All', ...new Set(allEvents.map(event => event.category))];
 
-  useEffect(() => {
-    setAllEvents(sampleEvents);
-    setFilteredEvents(sampleEvents);
-    setLoading(false);
-  }, []);
-
-  // Filter events by category
-  useEffect(() => {
-    if (selectedCategory === 'All') {
-      setFilteredEvents(allEvents);
-    } else {
-      setFilteredEvents(allEvents.filter(event => event.category === selectedCategory));
-    }
-  }, [selectedCategory, allEvents]);
+  const filteredEvents = selectedCategory === 'All'
+    ? allEvents
+    : allEvents.filter(event => event.category === selectedCategory);
 
   const handleEventClick = (event: Event) => {
     router.push(`/sales?id=${event.id}`);

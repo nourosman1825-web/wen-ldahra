@@ -20,6 +20,9 @@ const Navigation = () => {
           <Link href="/explore" className="hover:text-brown transition">Explore</Link>
           <Link href="/more" className="hover:text-brown transition">Categories</Link>
           <Link href="/about" className="hover:text-brown transition">About Us</Link>
+          <Link href="/manage-places" className="hover:text-brown transition"> Places</Link>
+           <Link href="/manage-sales" className="hover:text-brown transition"> Sales</Link>
+          
         </div>
 
         {/* Right side: Action Buttons & Mobile Menu Toggle */}
