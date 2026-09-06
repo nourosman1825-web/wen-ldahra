@@ -3,7 +3,7 @@ import React, { useState, useEffect, Suspense } from 'react';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import { useQuery } from '@tanstack/react-query';
-import { axiosPost } from '@/app/lib/axios';
+import { axiosPost, axiosGet } from '@/app/lib/axios';
 
 interface Place {
   id: string;
@@ -21,7 +21,6 @@ function errorMessage(error: unknown): string | null {
   return error instanceof Error ? error.message : null;
 }
 
-// Main component with Suspense
 export default function ResultsPage() {
   return (
     <Suspense fallback={
@@ -37,47 +36,56 @@ export default function ResultsPage() {
   );
 }
 
-// Actual component that uses useSearchParams
 function ResultsContent() {
   const searchParams = useSearchParams();
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedSort, setSelectedSort] = useState("Relevance");
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
 
-  // Get query params on mount
   useEffect(() => {
     const query = searchParams.get('query');
     const category = searchParams.get('category');
-    if (query) setSearchQuery(query);
-    if (category) setSelectedCategory(category);
+    setSearchQuery(query || "");
+    setSelectedCategory(category || null);
   }, [searchParams]);
 
-  // جلب الأماكن بالاعتماد على الـ AI Search API
+  const hasSearchQuery = searchQuery.trim() !== "";
+
+  // Typed search text -> AI search. Category-only browsing -> plain DB fetch, no AI.
   const {
     data: placesData,
     isLoading,
     error,
   } = useQuery<{ places: Place[] }>({
-    queryKey: ["ai-search", searchQuery],
+    queryKey: hasSearchQuery
+      ? ["ai-search", searchQuery]
+      : ["places-by-category", selectedCategory],
     queryFn: async () => {
-      const response = await axiosPost<{ query: string }, { places: Place[] }>("search/", {
-        query: searchQuery,
-      });
-      return response.data || { places: [] };
+      if (hasSearchQuery) {
+        const response = await axiosPost<{ query: string }, { places: Place[] }>("search/", {
+          query: searchQuery,
+        });
+        return response.data || { places: [] };
+      }
+
+      const url =
+        selectedCategory && selectedCategory !== "More"
+          ? `/places?category=${encodeURIComponent(selectedCategory)}`
+          : "/places";
+      const response = await axiosGet<Place[]>(url);
+      return { places: response.data || [] };
     },
-    enabled: true//
   });
 
   const allPlaces = placesData?.places ?? [];
 
-  // Filter by category if selected
+  // Kept as a safety net: AI results might mix categories, so still narrow client-side.
   const filteredPlaces = allPlaces.filter(place => {
     const matchesCategory = !selectedCategory || selectedCategory === 'More' ||
                            place.category === selectedCategory;
     return matchesCategory;
   });
 
-  // Sort the filtered results
   const sortedPlaces = [...filteredPlaces].sort((a, b) => {
     switch(selectedSort) {
       case 'Rating':
@@ -92,13 +100,9 @@ function ResultsContent() {
 
   return (
     <main className="min-h-screen bg-cream text-gray-800">
-      
-
       <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 p-4 sm:p-6 lg:p-8">
 
-        {/* Left Side: Results & Cards */}
         <div className="lg:col-span-7 space-y-4">
-          {/* Category Filter Display */}
           {selectedCategory && (
             <div className="flex items-center gap-2">
               <span className="text-sm text-gray-600">Filtering by:</span>
@@ -115,10 +119,13 @@ function ResultsContent() {
           )}
 
           <h1 className="text-xl sm:text-2xl font-bold text-gray-900">
-            AI found <span className="text-brown">{sortedPlaces.length} places</span> for you
+            {hasSearchQuery ? (
+              <>AI found <span className="text-brown">{sortedPlaces.length} places</span> for you</>
+            ) : (
+              <><span className="text-brown">{sortedPlaces.length} places</span> found</>
+            )}
           </h1>
 
-          {/* Quick Sort Options */}
           <div className="flex items-center gap-2 overflow-x-auto pb-2 scrollbar-none text-xs sm:text-sm">
             {['Relevance', 'Rating', 'Distance'].map((option) => (
               <button
@@ -135,21 +142,18 @@ function ResultsContent() {
             ))}
           </div>
 
-          {/* Loading state */}
           {isLoading && (
             <div className="bg-white p-8 rounded-2xl text-center border border-gray-100 text-gray-500 text-sm animate-pulse">
-              <p>AI is finding the best places for you...</p>
+              <p>{hasSearchQuery ? "AI is finding the best places for you..." : "Loading places..."}</p>
             </div>
           )}
 
-          {/* Error state */}
           {!isLoading && error && (
             <div className="bg-white p-8 rounded-2xl text-center border border-gray-100 text-red-500 text-sm">
               <p>{errorMessage(error) ?? "Couldn't load places right now."}</p>
             </div>
           )}
 
-          {/* Places List */}
           {!isLoading && !error && (
             <div className="space-y-4">
               {sortedPlaces.length > 0 ? (
@@ -215,7 +219,6 @@ function ResultsContent() {
           )}
         </div>
 
-        {/* Right Side: Visual Section */}
         <div className="hidden lg:flex lg:col-span-5 bg-blue-50/60 rounded-3xl h-[550px] sticky top-6 border border-blue-100/80 flex-col items-center justify-center p-6 text-center shadow-inner">
           <div className="text-5xl mb-4">🤖✨</div>
           <h3 className="font-bold text-brown text-xl mb-2">AI Recommendation Engine</h3>

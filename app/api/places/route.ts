@@ -4,9 +4,12 @@ import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/app/lib/prisma";
 import { IPlace } from "@/app/interfaces/interfaces";
 
-export async function GET() {
+export async function GET(request: NextRequest) {
   try {
+    const category = request.nextUrl.searchParams.get("category");
+
     const places = await prisma.place.findMany({
+      where: category ? { category } : undefined,
       orderBy: { createdAt: "desc" },
     });
 

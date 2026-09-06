@@ -5,6 +5,7 @@ import { Place } from "@/app/generated/prisma/client";
 import { axiosGet, axiosDelete, axiosPost } from "@/app/lib/axios";
 import { useRouter } from "next/navigation";
 import { IPlace } from "@/app/interfaces/interfaces";
+import { CATEGORIES } from "@/app/lib/categories";
 
 interface PlaceForm {
   name: string;
@@ -189,20 +190,17 @@ return (
 
             <div>
               <label className="block text-xs font-medium text-gray-600 mb-1">Category *</label>
-              <select
-                name="category"
-                value={form.category}
-                onChange={handleChange}
-                className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brown/20 bg-white"
-              >
-                <option value="">Select a category</option>
-                <option value="Cafés">Cafés</option>
-                <option value="Restaurants">Restaurants</option>
-                <option value="Parks">Parks</option>
-                <option value="Shopping">Shopping</option>
-                <option value="Entertainment">Entertainment</option>
-                <option value="Gyms">Gyms</option>
-              </select>
+         <select
+    name="category"
+    value={form.category}
+    onChange={handleChange}
+    className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brown/20 bg-white"
+>
+    <option value="">Select a category</option>
+    {CATEGORIES.map((cat) => (
+    <option key={cat.name} value={cat.name}>{cat.name}</option>
+    ))}
+    </select>
             </div>
 
             <div className="grid grid-cols-2 gap-3">
