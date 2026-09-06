@@ -16,6 +16,13 @@ export interface IPlace {
   category: string;
   tags?: string[];
   address?: string;
+  openTime?:string;
+  closeTime?:string;
+  price?:string;
+  website?:string;
+  phone?:string;
+  images?:string[];
+
 }
 export interface ISale {
   id?: number;

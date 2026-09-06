@@ -58,26 +58,38 @@ export async function PUT(
       category,
       tags,
       address,
+      openTime,
+      closeTime,
+      price,
+      website,
+      phone,
+      images,
     } = body as IPlace;
 
-    const place = await prisma.place.update({
+    const updatedPlace = await prisma.place.update({
       where: { id: placeId },
-      data: {
-        name,
-        description,
-        image,
-        rating,
-        reviewCount,
-        distance,
-        latitude,
-        longitude,
-        category,
-        tags,
-        address,
-      },
+      data:{
+      name,
+      description,
+      image,
+      rating,
+      reviewCount,
+      distance,
+      latitude,
+      longitude,
+      category,
+      tags,
+      address,
+      openTime,
+      closeTime,
+      price,
+      website,
+      phone,
+      images,     
+      }
     });
 
-    return NextResponse.json({ status: 200, data: place });
+    return NextResponse.json({ status: 200, data: updatedPlace });
   } catch (error) {
     console.error("Failed to update place:", error);
     return NextResponse.json({
