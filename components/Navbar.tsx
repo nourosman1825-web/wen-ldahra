@@ -1,6 +1,7 @@
 "use client";
 import Link from 'next/link';
 import React, { useState } from 'react';
+import Image from 'next/image';
 
 const Navigation = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -10,7 +11,13 @@ const Navigation = () => {
       <div className="flex justify-between items-center">
         {/* Left side: Logo and Brand */}
         <Link href="/" className="flex items-center space-x-2">
-          <span className="bg-dark-brown text-white p-2 rounded-full font-bold text-sm">💡</span>
+          <Image 
+  src="/photos/logo.jpeg" 
+  alt="Wen El Dahra Logo" 
+  width={50} 
+  height={50} 
+  className="rounded-full"
+/>
           <span className="font-bold text-base sm:text-lg text-dark-brown tracking-wide">WEN EL DAHRA</span>
         </Link>
 
