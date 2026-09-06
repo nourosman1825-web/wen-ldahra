@@ -3,8 +3,8 @@ export interface IResponse<T = undefined> {
   message?: string;
   status?: number;
 }
-
 export interface IPlace {
+  id?: number;
   name: string;
   description?: string;
   image?: string;
@@ -16,14 +16,14 @@ export interface IPlace {
   category: string;
   tags?: string[];
   address?: string;
-  openTime?:string;
-  closeTime?:string;
-  price?:string;
-  website?:string;
-  phone?:string;
-  images?:string[];
-
+  openTime?: string;
+  closeTime?: string;
+  price?: string;
+  website?: string;
+  phone?: string;
+  images?: string[];
 }
+
 export interface ISale {
   id?: number;
   title: string;
