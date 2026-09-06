@@ -1,50 +1,30 @@
+// this page for places api route get and post
 
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/app/lib/prisma";
 import { IPlace } from "@/app/interfaces/interfaces";
 
-export async function GET(
-  _request: NextRequest,
-  { params }: { params: Promise<{ id: string }> },
-) {
+export async function GET(request: NextRequest) {
   try {
-    const { id } = await params;
-    const placeId = Number(id);
+    const category = request.nextUrl.searchParams.get("category");
 
-    if (Number.isNaN(placeId)) {
-      return NextResponse.json({ status: 400, message: "invalid place id" });
-    }
-
-    const place = await prisma.place.findUnique({
-      where: { id: placeId },
+    const places = await prisma.place.findMany({
+      where: category ? { category } : undefined,
+      orderBy: { createdAt: "desc" },
     });
 
-    if (!place) {
-      return NextResponse.json({ status: 404, message: "place not found" });
-    }
-
-    return NextResponse.json({ status: 200, data: place });
+    return NextResponse.json({ status: 200, data: places });
   } catch (error) {
-    console.error("Failed to fetch place:", error);
+    console.error("Failed to fetch places:", error);
     return NextResponse.json({
       status: 500,
-      message: "Failed to fetch place",
+      message: "Failed to fetch places",
     });
   }
 }
 
-export async function PUT(
-  request: NextRequest,
-  { params }: { params: Promise<{ id: string }> },
-) {
+export async function POST(request: NextRequest) {
   try {
-    const { id } = await params;
-    const placeId = Number(id);
-
-    if (Number.isNaN(placeId)) {
-      return NextResponse.json({ status: 400, message: "invalid place id" });
-    }
-
     const body = await request.json();
     const {
       name,
@@ -58,69 +38,37 @@ export async function PUT(
       category,
       tags,
       address,
-      openTime,
-      closeTime,
-      price,
-      website,
-      phone,
-      images,
     } = body as IPlace;
 
-    const updatedPlace = await prisma.place.update({
-      where: { id: placeId },
-      data:{
-      name,
-      description,
-      image,
-      rating,
-      reviewCount,
-      distance,
-      latitude,
-      longitude,
-      category,
-      tags,
-      address,
-      openTime,
-      closeTime,
-      price,
-      website,
-      phone,
-      images,     
-      }
-    });
-
-    return NextResponse.json({ status: 200, data: updatedPlace });
-  } catch (error) {
-    console.error("Failed to update place:", error);
-    return NextResponse.json({
-      status: 500,
-      message: "Failed to update place",
-    });
-  }
-}
-
-export async function DELETE(
-  _request: NextRequest,
-  { params }: { params: Promise<{ id: string }> },
-) {
-  try {
-    const { id } = await params;
-    const placeId = Number(id);
-
-    if (Number.isNaN(placeId)) {
-      return NextResponse.json({ status: 400, message: "invalid place id" });
+    if (!name || !category) {
+      return NextResponse.json({
+        status: 400,
+        message: "name and category are required",
+      });
     }
 
-    const place = await prisma.place.delete({
-      where: { id: placeId },
+    const place = await prisma.place.create({
+      data: {
+        name,
+        description,
+        image,
+        rating,
+        reviewCount,
+        distance,
+        latitude,
+        longitude,
+        category,
+        tags: tags ?? [],
+        address,
+      },
     });
 
-    return NextResponse.json({ status: 200, data: place });
+    return NextResponse.json({ status: 201, data: place });
   } catch (error) {
-    console.error("Failed to delete place:", error);
+    console.error("Failed to create place:", error);
     return NextResponse.json({
       status: 500,
-      message: "Failed to delete place",
+      message: "Failed to create place",
     });
   }
 }

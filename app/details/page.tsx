@@ -38,16 +38,15 @@ function PlaceDetailsContent() {
   }
 
   const currentImage = activeImage || place.image || "";
-  const mapQuery = place.latitude != null && place.longitude != null
-    ? `${place.latitude},${place.longitude}`
-    : encodeURIComponent(place.address || place.name);
-  const mapLink = `https://www.google.com/maps/search/?api=1&query=${mapQuery}`;
+  const mapLink = place.latitude != null && place.longitude != null
+    ? `https://www.google.com/maps/search/?api=1&query=${place.latitude},${place.longitude}`
+    : `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(place.address || place.name)}`;
 
   return (
     <div className="min-h-screen bg-cream pb-12 sm:pb-16">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 py-4">
         <Link href="/result" className="text-dark-brown hover:underline font-medium text-sm inline-flex items-center gap-1">
-          Back to results
+          ← Back to results
         </Link>
       </div>
 
@@ -100,9 +99,9 @@ function PlaceDetailsContent() {
               </span>
               <h1 className="text-xl sm:text-2xl font-extrabold text-gray-900 mt-2">{place.name}</h1>
               <p className="text-amber-500 font-semibold text-sm mt-1">
-                Rating: {place.rating != null ? place.rating.toFixed(1) : "N/A"}
+                ★ {place.rating != null ? place.rating.toFixed(1) : "N/A"}
                 {" "}
-                <span className="text-gray-400 font-normal">({place.reviewCount ?? 0} reviews)</span>
+                <span className="text-gray-400 font-normal">({place.reviewCount ?? 0})</span>
               </p>
             </div>
 
