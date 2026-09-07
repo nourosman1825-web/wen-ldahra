@@ -147,6 +147,14 @@ export default function EditPlacePage() {
               <option value="Shopping">Shopping</option>
               <option value="Entertainment">Entertainment</option>
               <option value="Gyms">Gyms</option>
+              <option value="Hotels">Hotels</option>
+                <option value="Beaches">Beaches</option>
+                <option value="Historical Sites">Historical Sites</option>
+                <option value="Spa and Wellness">Spa and Wellness</option>
+                <option value="Museums">Museums</option>
+                <option value="Bakerys">Bakeries</option>
+                <option value="Bookstores">Bookstores</option>
+                <option value="Spa_and_Wellness">Spa and Wellness</option>
             </select>
           </div>
 
