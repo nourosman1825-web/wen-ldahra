@@ -4,15 +4,12 @@ import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/app/lib/prisma";
 import { IPlace } from "@/app/interfaces/interfaces";
 
-export async function GET(request: NextRequest) {
+export async function GET() {
   try {
-    const category = request.nextUrl.searchParams.get("category");
-
     const places = await prisma.place.findMany({
-      where: category ? { category } : undefined,
       orderBy: { createdAt: "desc" },
     });
-
+console.log("Fetched places:", places);
     return NextResponse.json({ status: 200, data: places });
   } catch (error) {
     console.error("Failed to fetch places:", error);
@@ -26,6 +23,7 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
+    console.log("POST request body:", body);
     const {
       name,
       description,

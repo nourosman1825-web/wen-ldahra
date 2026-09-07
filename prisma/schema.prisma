@@ -1,3 +1,8 @@
+// // This is your Prisma schema file,
+// // learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// // Get a free hosted Postgres database in seconds: `npx create-db`
+
 generator client {
   provider = "prisma-client"
   output   = "../app/generated/prisma"
@@ -7,50 +12,29 @@ datasource db {
   provider = "postgresql"
 }
 
+
 model Place {
-  id          Int        @id @default(autoincrement())
+  id          Int       @id @default(autoincrement())
   name        String
   description String?
-  address     String?
-  latitude    Float?
-  longitude   Float?
-  category    String
-  createdAt   DateTime   @default(now())
-  distance    Float?
   image       String?
-  rating      Float      @default(0)
-  reviewCount Int        @default(0)
-  tags        String[]
-  updatedAt   DateTime   @updatedAt
+  images      String[]  // array of image URLs
+  rating      Float     @default(0)
+  reviewCount Int       @default(0)
+  distance    Float?    // km, if you calculate/store it
+  category    String    // e.g. "Cafés", "Restaurants", "Parks"
+  tags        String[]  // e.g. ["Quiet", "Wi-Fi", "Outdoor"]
+  address     String?
   openTime    String?
   closeTime   String?
   price       String?
   website     String?
   phone       String?
-  images      String[]   @default([])
-  
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
 
   @@index([category])
 }
 
-model User {
-  id        Int        @id @default(autoincrement())
-  email     String     @unique
-  name      String?
-  password  String
-  createdAt DateTime   @default(now())
 
-}
-
-model Sale {
-  id          Int      @id @default(autoincrement())
-  title       String
-  description String?
-  category    String
-  image       String?
-  date        String?
-  isSale      Boolean  @default(false)
-  discount    String?
-  location    String?
-  createdAt   DateTime @default(now())
-}

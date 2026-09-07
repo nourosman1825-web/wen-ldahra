@@ -5,7 +5,7 @@ import { Place } from "@/app/generated/prisma/client";
 import { axiosGet, axiosDelete, axiosPost } from "@/app/lib/axios";
 import { useRouter } from "next/navigation";
 import { IPlace } from "@/app/interfaces/interfaces";
-import { CATEGORIES } from "@/app/lib/categories";
+import { axiosPut } from "@/app/lib/axios";
 
 interface PlaceForm {
   name: string;
@@ -16,6 +16,7 @@ interface PlaceForm {
   image: string;
   tags: string;
   address: string;
+  description?: string;
 }
 
 const initialForm: PlaceForm = {
@@ -27,6 +28,7 @@ const initialForm: PlaceForm = {
   image: "",
   tags: "",
   address: "",
+  description: "",
 };
 
 function errorMessage(error: unknown): string | null {
@@ -34,10 +36,22 @@ function errorMessage(error: unknown): string | null {
 }
 
 export default function ManagePlacesPage() {
+  console.log("Rendering ManagePlacesPage");
   const route = useRouter();
   const queryClient = useQueryClient();
   const [showForm, setShowForm] = useState(false);
   const [form, setForm] = useState<PlaceForm>(initialForm);
+  const [createdPlaceId, setCreatedPlaceId] = useState<number | null>(null);
+  const [showDetailsForm, setShowDetailsForm] = useState(false);
+  const [detailsForm, setDetailsForm] = useState({
+    openTime: "",
+    closeTime: "",
+    price: "",
+    website: "",
+    phone: "",
+    images: "",
+  });
+ 
 
   const {
     data: places,
@@ -52,12 +66,18 @@ export default function ManagePlacesPage() {
   });
 
   const createMutation = useMutation({
-    mutationFn: (values: IPlace) => axiosPost<IPlace, unknown>("/places", values),
-    onSuccess: () => {
+    mutationFn: (values: IPlace) => axiosPost<IPlace, Place>("/places", values),
+    onSuccess: (response) => {
       queryClient.invalidateQueries({ queryKey: ["places"] });
+      const newPlace=response.data;
       setForm(initialForm);
       setShowForm(false);
-    },
+      if(newPlace){
+        setCreatedPlaceId(newPlace.id);
+        setShowDetailsForm(true);
+      }
+      },
+    
   });
 
   const deleteMutation = useMutation({
@@ -66,8 +86,41 @@ export default function ManagePlacesPage() {
       queryClient.invalidateQueries({ queryKey: ["places"] });
     },
   });
+  const detailsMutation = useMutation({
+  mutationFn: (id: number) =>
+    axiosPut<Record<string, unknown>, Place>(`/places/${id}`, {
+      ...detailsForm,
+      images: detailsForm.images
+        ? detailsForm.images.split(",").map((url) => url.trim()).filter(Boolean)
+        : [],
+    }),
+  onSuccess: () => {
+    queryClient.invalidateQueries({ queryKey: ["places"] });
+    setShowDetailsForm(false);
+    if (createdPlaceId) {
+      route.push(`/details?id=${createdPlaceId}`);
+    }
+  },
+});
 
-  function handleChange(e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) {
+function handleDetailsChange(e: React.ChangeEvent<HTMLInputElement >) {
+  setDetailsForm({ ...detailsForm, [e.target.name]: e.target.value });
+}
+
+function handleDetailsSubmit(e: React.FormEvent) {
+  e.preventDefault();
+  if (!createdPlaceId) return;
+  detailsMutation.mutate(createdPlaceId);
+}
+
+function handleSkipDetails() {
+  setShowDetailsForm(false);
+  if (createdPlaceId) {
+    route.push(`/details?id=${createdPlaceId}`);
+  }
+}
+
+  function handleChange(e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement |  HTMLTextAreaElement>) {
     setForm({ ...form, [e.target.name]: e.target.value });
   }
 
@@ -190,17 +243,28 @@ return (
 
             <div>
               <label className="block text-xs font-medium text-gray-600 mb-1">Category *</label>
-             <select
-  name="category"
-  value={form.category}
-  onChange={handleChange}
-  className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brown/20 bg-white"
->
-  <option value="">Select a category</option>
-  {CATEGORIES.map((cat) => (
-    <option key={cat.name} value={cat.name}>{cat.name}</option>
-  ))}
-</select>
+              <select
+                name="category"
+                value={form.category}
+                onChange={handleChange}
+                className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brown/20 bg-white"
+              >
+                <option value="">Select a category</option>
+                <option value="Cafés">Cafés</option>
+                <option value="Restaurants">Restaurants</option>
+                <option value="Parks">Parks</option>
+                <option value="Shopping">Shopping</option>
+                <option value="Entertainment">Entertainment</option>
+                <option value="Gyms">Gyms</option>
+                <option value="Hotels">Hotels</option>
+                <option value="Beaches">Beaches</option>
+                <option value="Historical Sites">Historical Sites</option>
+                <option value="Spa and Wellness">Spa and Wellness</option>
+                <option value="Museums">Museums</option>
+                <option value="Bakerys">Bakeries</option>
+                <option value="Bookstores">Bookstores</option>
+                <option value="Spa_and_Wellness">Spa and Wellness</option>
+              </select>
             </div>
 
             <div className="grid grid-cols-2 gap-3">
@@ -253,7 +317,17 @@ return (
                 className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brown/20"
               />
             </div>
-
+            <div>
+            <label className="block text-xs font-medium text-gray-600 mb-1">Description</label>
+            <textarea
+              name="description"
+              value={form.description}
+              onChange={handleChange}
+              placeholder="Description of the place"
+              className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brown/20"
+              rows={3}
+            />
+          </div>
             <div>
               <label className="block text-xs font-medium text-gray-600 mb-1">Address</label>
               <input
@@ -291,6 +365,92 @@ return (
         </div>
       </div>
     )}
+    {showDetailsForm && createdPlaceId && (
+  <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
+    <div className="bg-white rounded-2xl border border-beige shadow-xl p-6 w-full max-w-lg max-h-[90vh] overflow-y-auto">
+      <div className="flex items-center justify-between mb-4">
+        <h2 className="text-lg font-semibold text-dark-brown">Add More Details</h2>
+        <button
+          onClick={handleSkipDetails}
+          className="text-gray-400 hover:text-gray-600 text-xs font-medium"
+        >
+          Skip
+        </button>
+      </div>
+
+      <form onSubmit={handleDetailsSubmit} className="space-y-4">
+        <div className="grid grid-cols-2 gap-3">
+          <div>
+            <label className="block text-xs font-medium text-gray-600 mb-1">Opening Time</label>
+            <input
+              name="openTime"
+              value={detailsForm.openTime}
+              onChange={handleDetailsChange}
+              placeholder="8:00 AM"
+              className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brown/20"
+            />
+          </div>
+          <div>
+            <label className="block text-xs font-medium text-gray-600 mb-1">Closing Time</label>
+            <input
+              name="closeTime"
+              value={detailsForm.closeTime}
+              onChange={handleDetailsChange}
+              placeholder="11:00 PM"
+              className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brown/20"
+            />
+          </div>
+        </div>
+
+        <div>
+          <label className="block text-xs font-medium text-gray-600 mb-1">Price</label>
+          <input
+            name="price"
+            value={detailsForm.price}
+            onChange={handleDetailsChange}
+            placeholder="$$"
+            className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brown/20"
+          />
+        </div>
+
+        <div>
+          <label className="block text-xs font-medium text-gray-600 mb-1">Website</label>
+          <input
+            name="website"
+            value={detailsForm.website}
+            onChange={handleDetailsChange}
+            placeholder="https://..."
+            className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brown/20"
+          />
+        </div>
+
+        <div>
+          <label className="block text-xs font-medium text-gray-600 mb-1">Phone</label>
+          <input
+            name="phone"
+            value={detailsForm.phone}
+            onChange={handleDetailsChange}
+            placeholder="+961 ..."
+            className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brown/20"
+          />
+        </div>
+
+        {detailsMutation.isError && (
+          <p className="text-red-500 text-sm">{errorMessage(detailsMutation.error)}</p>
+        )}
+        
+
+        <button
+          type="submit"
+          disabled={detailsMutation.isPending}
+          className="w-full bg-brown hover:bg-dark-brown text-white font-medium py-3 rounded-xl transition disabled:opacity-50"
+        >
+          {detailsMutation.isPending ? "Saving..." : "Save & View Place"}
+        </button>
+      </form>
+    </div>
+  </div>
+)}
   </main>
 );
 }
