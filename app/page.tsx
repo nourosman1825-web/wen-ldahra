@@ -160,9 +160,9 @@ const displayEvents = allEvents.slice(0, 3);
         />
       </section>
 
-      {/* Sales & Events Section - Show Only 3 */}
+  
 {/* Sales & Events Section - Show Only 3 */}
-<section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-12 border-t border-beige/30">
+<section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-12 border-t border-beige/30 bg-beige2 rounded-3xl">
   <div className="flex justify-between items-center mb-6">
     <div>
       <h2 className="text-2xl sm:text-3xl font-bold text-dark-brown font-muted">
